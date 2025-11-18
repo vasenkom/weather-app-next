@@ -1,11 +1,12 @@
 'use server'
 
-import { NextResponse } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 
-export async function GET() {
+export async function GET(req: NextRequest) {
     const apiKey = process.env.WEATHER_API_KEY
     try {
-        let city = 'London' // test
+        const { searchParams } = new URL(req.url);
+        let city = searchParams.get('city')
         let url = `http://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${city}`
         const res = await fetch(url)
 

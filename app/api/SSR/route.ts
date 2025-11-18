@@ -7,17 +7,36 @@ export async function GET(req: NextRequest) {
     try {
         const { searchParams } = new URL(req.url);
         let city = searchParams.get('city')
-        let url = `http://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${city}`
-        const res = await fetch(url)
 
-        if (!res.ok) {
-            const errorText = await res.text()
-            console.log('ERROR:', errorText)
-            return NextResponse.json({status: res.status, error: errorText})
+        if (!city) {
+            return NextResponse.json(
+                {error: "City name is required"},
+                {status: 400}
+            )
         }
 
-        const json = await res.json()
-        return NextResponse.json(json, { status: 200 })
+        let currentUrl = `http://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${city}`
+        let forecastUrl = `http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${city}&days=3`;
+
+        const [currentRes, forecastRes] = await Promise.all([
+            fetch(currentUrl),
+            fetch(forecastUrl)
+        ])
+
+        if (!currentRes.ok || !forecastRes.ok) {
+           
+            return NextResponse.json({
+                    error: "One of the API calls failed",
+                    currentStatus: currentRes.status,
+                    forecastStatus: forecastRes.status
+                },
+                { status: 500 })
+        }
+
+        const currentData = await currentRes.json();
+        const forecastData = await forecastRes.json();
+        
+        return NextResponse.json({ current: currentData, forecast: forecastData}, { status: 200 })
     } catch (err: any) {
         return NextResponse.json({status: 500, error: 'Uknown Error'})
     }

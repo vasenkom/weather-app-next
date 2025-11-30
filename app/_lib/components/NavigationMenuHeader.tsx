@@ -6,7 +6,7 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
 } from "@/components/ui/navigation-menu"
-
+import { ModeToggle } from "./ModeToggle"
 import Link from "next/link"
 
 export default function NavigationMenuHeader() {
@@ -15,7 +15,10 @@ export default function NavigationMenuHeader() {
       <div className="w-[80%] mx-auto flex items-center justify-between">
             
             {/* LEFT */}
-            <Link href="/">Home</Link>
+            <div className="flex gap-5 items-center">
+                <ModeToggle />
+                <Link href="/">Home</Link>
+            </div>
 
             {/* RIGHT */}
             <NavigationMenu>

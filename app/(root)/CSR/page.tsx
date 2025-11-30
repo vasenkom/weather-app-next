@@ -38,9 +38,20 @@ export default function CSR() {
         setError(null);
         setLoading(true)
 
+        const form = e.currentTarget 
+        const formData = new FormData(e.currentTarget)
+
         //FormData allows to read inputs from form; strores key-value pairs
-        const city = (new FormData(e.currentTarget).get("city") as string)
+        const city = (formData.get("city") as string)
         updateInputState('city', city) 
+
+        if (!city) {
+            setError("Please provide the location.")
+            setCurrentWeather(null)
+            setForecastWeather(null)
+            setLoading(false)
+            return
+        }
 
         try {
             const data = await fetchWeather(city);
@@ -54,8 +65,14 @@ export default function CSR() {
 
         setCurrentWeather(data.current);
         setForecastWeather(data.forecast);
+        } catch (err) {
+            console.error(err)
+            setError("Something went wrong while fetching the weather. Please try again.")
+            setCurrentWeather(null)
+            setForecastWeather(null)
         } finally {
             setLoading(false)
+            form.reset()
         }
         
     }

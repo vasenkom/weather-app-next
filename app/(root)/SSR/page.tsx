@@ -29,6 +29,8 @@ export default async function SSR({searchParams}: SSRprops) {
         } catch (e: any) {
             error = "Failed to fetch weather.";
         }
+    } else {
+        error = "Please provide location.";
     }
 
     const city = currentWeather?.location?.name ?? 0

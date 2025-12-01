@@ -1,3 +1,57 @@
+# Weather Dashboard
+
+A small weather app built to compare **SSR** and **CSR** approaches in Next.js.
+
+The project includes two dashboards:
+
+- **SSR Weather Dashboard** – fully server-rendered using `searchParams`.
+- **CSR Weather Dashboard** – form handled on the client, but weather data fetched safely through a **server API route**.
+
+Weather data is fetched from **WeatherAPI**.
+
+
+## 🚀 Tech Stack
+
+- **Next.js (App Router)**
+- **TypeScript**
+- **Tailwind CSS**
+- **shadcn/ui** components
+- **WeatherAPI** for weather data
+
+
+## ✨ Features
+
+- Search weather by city
+- Displays:
+  - Current temperature & feels-like
+  - Condition with icon
+  - Wind speed & direction
+  - Precipitation
+  - Two-day forecast
+- **SSR dashboard**
+  - Rendered fully on the server
+  - No client-side fetching
+- **CSR dashboard**
+  - Client search + loading states
+  - Fetches via **Next.js API route** (protects API key)
+- Error + loading handling
+- Simple UI with shadcn components
+
+---
+
+## 🔐 Environment Variables
+
+Create a `.env.local` file:
+
+```bash
+# server
+WEATHER_API_KEY=""
+
+# public
+NEXT_PUBLIC_API_BASE=http://localhost:3000
+```
+
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
